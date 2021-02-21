@@ -6,8 +6,8 @@ export const Container = styled.ScrollView`
 `;
 
 export const Code = styled.View`
-    margin: 30px;
-    padding: 50px;
+    margin-top: 10px;
+    padding: 45px;
     align-self: center;
     overflow: hidden;
     background-color: #fff;
