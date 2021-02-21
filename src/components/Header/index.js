@@ -6,16 +6,14 @@ import logo from '../../assets/Nubank_Logo.png';
 
 const Header = () => {
     return (
-        <>
-            <Container>
-                <Top>
-                    <Logo source={logo} />
-                    <Title>Raniel</Title>
-                </Top>
+        <Container>
+            <Top>
+                <Logo source={logo} />
+                <Title>Raniel</Title>
+            </Top>
 
-                <Icon name="keyboard-arrow-down" size={20} color="#fff" />
-            </Container>
-        </>
+            <Icon name="keyboard-arrow-down" size={20} color="#fff" />
+        </Container>
     );
 };
 

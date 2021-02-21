@@ -22,6 +22,7 @@ import {
 } from './styles';
 
 const Main = () => {
+    let offset = 0;
     const translateY = new Animated.Value(0);
 
     const animatedEvent = Animated.event(
@@ -35,7 +36,103 @@ const Main = () => {
         { useNativeDriver: true },
     );
 
-    const onHandlerStateChanged = (event) => {};
+    const onHandlerStateChanged = (event) => {
+        if (event.nativeEvent.oldState === State.ACTIVE) {
+            let opened = false;
+            const { translationY } = event.nativeEvent;
+
+            const closed = offset === 0;
+
+            offset += translationY;
+
+            if (closed) {
+                if (translationY >= 100) {
+                    Animated.timing(translateY, {
+                        toValue: 380,
+                        duration: 500,
+                        useNativeDriver: true,
+                    }).start(() => {
+                        offset = 380;
+                        translateY.setOffset(offset);
+                        translateY.setValue(0);
+                    });
+                } else {
+                    translateY.setValue(offset);
+                    translateY.setOffset(0);
+
+                    Animated.spring(translateY, {
+                        toValue: 0,
+                        friction: 6,
+                        tension: 200,
+                        useNativeDriver: true,
+                    }).start(() => {
+                        offset = 0;
+                        translateY.setOffset(offset);
+                        translateY.setValue(0);
+                    });
+                }
+            } else {
+                if (translationY > -200) {
+                    Animated.timing(translateY, {
+                        toValue: 380,
+                        duration: 2000,
+                        useNativeDriver: true,
+                    }).start(() => {
+                        offset = 380;
+                        translateY.setOffset(offset);
+                        translateY.setValue(0);
+                    });
+
+                    // Animated.spring(translateY, {
+                    //     toValue: opened ? 380 : 0,
+                    //     friction: 6,
+                    //     tension: 200,
+                    //     useNativeDriver: true,
+                    // }).start(() => {
+                    //     offset = opened ? 380 : 0;
+                    //     translateY.setOffset(offset);
+                    //     translateY.setValue(0);
+                    // });
+                } else {
+                    translateY.setValue(offset);
+                    translateY.setOffset(0);
+
+                    // offset = 0;
+
+                    Animated.timing(translateY, {
+                        toValue: 0,
+                        duration: 2000,
+                        useNativeDriver: true,
+                    }).start(() => {
+                        offset = 0;
+                        // translateY.setOffset(offset);
+                        // translateY.setValue(0);
+                    });
+                }
+            }
+
+            // Animated.timing(translateY, {
+            //     toValue: opened ? 380 : 0,
+            //     duration: 2000,
+            //     useNativeDriver: true,
+            // }).start(() => {
+            //     offset = opened ? 380 : 0;
+            //     translateY.setOffset(offset);
+            //     translateY.setValue(0);
+            // });
+
+            // Animated.spring(translateY, {
+            //     toValue: opened ? 380 : 0,
+            //     friction: 6,
+            //     tension: 200,
+            //     useNativeDriver: true,
+            // }).start(() => {
+            //     offset = opened ? 380 : 0;
+            //     translateY.setOffset(offset);
+            //     translateY.setValue(0);
+            // });
+        }
+    };
 
     return (
         <>
@@ -90,7 +187,7 @@ const Main = () => {
                     </PanGestureHandler>
                 </Content>
 
-                <Tabs />
+                <Tabs translateY={translateY} />
             </Container>
         </>
     );
