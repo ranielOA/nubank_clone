@@ -38,7 +38,6 @@ const Main = () => {
 
     const onHandlerStateChanged = (event) => {
         if (event.nativeEvent.oldState === State.ACTIVE) {
-            let opened = false;
             const { translationY } = event.nativeEvent;
 
             const closed = offset === 0;
@@ -49,7 +48,7 @@ const Main = () => {
                 if (translationY >= 100) {
                     Animated.timing(translateY, {
                         toValue: 380,
-                        duration: 500,
+                        duration: 200,
                         useNativeDriver: true,
                     }).start(() => {
                         offset = 380;
@@ -72,65 +71,17 @@ const Main = () => {
                     });
                 }
             } else {
-                if (translationY > -200) {
-                    Animated.timing(translateY, {
-                        toValue: 380,
-                        duration: 2000,
-                        useNativeDriver: true,
-                    }).start(() => {
-                        offset = 380;
-                        translateY.setOffset(offset);
-                        translateY.setValue(0);
-                    });
+                translateY.setValue(offset);
+                translateY.setOffset(0);
 
-                    // Animated.spring(translateY, {
-                    //     toValue: opened ? 380 : 0,
-                    //     friction: 6,
-                    //     tension: 200,
-                    //     useNativeDriver: true,
-                    // }).start(() => {
-                    //     offset = opened ? 380 : 0;
-                    //     translateY.setOffset(offset);
-                    //     translateY.setValue(0);
-                    // });
-                } else {
-                    translateY.setValue(offset);
-                    translateY.setOffset(0);
-
-                    // offset = 0;
-
-                    Animated.timing(translateY, {
-                        toValue: 0,
-                        duration: 2000,
-                        useNativeDriver: true,
-                    }).start(() => {
-                        offset = 0;
-                        // translateY.setOffset(offset);
-                        // translateY.setValue(0);
-                    });
-                }
+                Animated.timing(translateY, {
+                    toValue: 0,
+                    duration: 200,
+                    useNativeDriver: true,
+                }).start(() => {
+                    offset = 0;
+                });
             }
-
-            // Animated.timing(translateY, {
-            //     toValue: opened ? 380 : 0,
-            //     duration: 2000,
-            //     useNativeDriver: true,
-            // }).start(() => {
-            //     offset = opened ? 380 : 0;
-            //     translateY.setOffset(offset);
-            //     translateY.setValue(0);
-            // });
-
-            // Animated.spring(translateY, {
-            //     toValue: opened ? 380 : 0,
-            //     friction: 6,
-            //     tension: 200,
-            //     useNativeDriver: true,
-            // }).start(() => {
-            //     offset = opened ? 380 : 0;
-            //     translateY.setOffset(offset);
-            //     translateY.setValue(0);
-            // });
         }
     };
 

@@ -11,11 +11,12 @@ export const Container = styled.View`
     flex: 1;
     background: #8b10ae;
     padding-top: ${getStatusBarHeight()}px;
+    padding-bottom: 10px;
 `;
 
 export const Content = styled.View`
     flex: 1;
-    max-height: 400px;
+    /* max-height: 400px; */
     z-index: 5;
 `;
 
